@@ -5,9 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>바이크를 담다 | 전국 No.1 오토바이 매입 전문</title>
     <meta name="description" content="전국 어디든 당일 출장 방문, 즉시 현장 입금. 오토바이 매입 전문 브랜드 바이크를 담다에서 정직한 최고가 견적을 받아보세요. 출장비 무료, 연중무휴 24시간 상담. 010-8666-1559">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="바이크를 담다 | 전국 No.1 오토바이 매입 전문">
+    <meta property="og:description" content="전국 어디든 당일 출장 방문, 즉시 현장 입금. 정직한 최고가 견적 · 출장비 무료 · 연중무휴 24시간. 010-8666-1559">
+    <meta property="og:image" content="logo.png">
+    <meta property="og:locale" content="ko_KR">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
         :root {
@@ -326,12 +330,83 @@
         .f-kakao:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 15px 30px rgba(254,229,0,0.3); }
         .f-btn:active { transform: scale(0.95); transition: 0.1s; }
 
+        /* 스크롤 진행바 */
+        #scroll-progress {
+            position: fixed; top: 0; left: 0; z-index: 2000;
+            height: 3px; width: 0%;
+            background: linear-gradient(90deg, var(--point-blue), #60a5fa);
+            transition: width 0.1s linear;
+        }
+
+        /* 네비 활성화 */
+        .header-nav a.active { color: #fff; }
+        .header-nav a.active::after {
+            content: '';
+            display: block;
+            height: 2px;
+            background: var(--point-blue);
+            border-radius: 2px;
+            margin-top: 3px;
+        }
+
+        /* 햄버거 메뉴 */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 4px;
+            position: absolute;
+            right: var(--px);
+        }
+        .hamburger span {
+            display: block; width: 24px; height: 2px;
+            background: #fff; border-radius: 2px;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        .mobile-nav {
+            display: none;
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(5,10,18,0.97);
+            z-index: 999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 36px;
+        }
+        .mobile-nav.open { display: flex; }
+        .mobile-nav a {
+            font-size: 28px; font-weight: 700; color: rgba(255,255,255,0.7);
+            transition: color 0.2s;
+        }
+        .mobile-nav a:hover { color: #fff; }
+
+        /* 전화 버튼 pulse */
+        @keyframes pulse-ring {
+            0% { box-shadow: 0 10px 25px rgba(0,0,0,0.4), 0 0 0 0 rgba(59,130,246,0.8); }
+            70% { box-shadow: 0 10px 25px rgba(0,0,0,0.4), 0 0 0 20px rgba(59,130,246,0); }
+            100% { box-shadow: 0 10px 25px rgba(0,0,0,0.4), 0 0 0 0 rgba(59,130,246,0); }
+        }
+        .f-call { animation: pulse-ring 2.5s ease-out infinite; }
+        .hero-cta { animation: pulse-ring 2.5s ease-out infinite; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .marquee-track { animation-play-state: paused; }
+            .hero-logo-wrap { animation: none; }
+        }
+
         @media (max-width: 768px) {
             :root { --px: 20px; }
 
             header { padding: 14px var(--px); justify-content: center; }
             .logo-text { font-size: 24px; }
             .header-nav { display: none; }
+            .hamburger { display: flex; }
     
             .hero { padding: 60px var(--px); gap: 40px; background-attachment: scroll; }
             .hero-logo-wrap { padding: 14px; border-radius: 28px; }
@@ -409,6 +484,8 @@
 </head>
 <body>
 
+    <div id="scroll-progress"></div>
+
     <header>
         <div class="logo-text">바이크를 <span>담다</span></div>
         <nav class="header-nav">
@@ -417,8 +494,21 @@
             <a href="#process">매입절차</a>
             <a href="#reviews">후기</a>
             <a href="#location">오시는길</a>
+            <a href="#faq">FAQ</a>
         </nav>
+        <div class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
+        </div>
     </header>
+
+    <nav class="mobile-nav" id="mobile-nav">
+        <a href="#hero">홈</a>
+        <a href="#brand-intro">소개</a>
+        <a href="#process">매입절차</a>
+        <a href="#reviews">후기</a>
+        <a href="#location">오시는길</a>
+        <a href="#faq">FAQ</a>
+    </nav>
 
     <section class="hero" id="hero">
         <div class="hero-top" data-aos="fade-down" data-aos-delay="100">
@@ -587,7 +677,7 @@
         </div>
     </section>
 
-    <section class="faq-section">
+    <section class="faq-section" id="faq">
         <h3 data-aos="fade-down">자주 묻는 질문</h3>
         <div class="faq-container" data-aos="fade-up" data-aos-delay="200">
             <div class="faq-item blur-panel"><div class="faq-question"><span>1. 오토바이 상태가 좋지 않은데도 매입이 가능한가요?</span><span class="faq-icon">▼</span></div><div class="faq-answer">네, 무조건 가능합니다. 사고 차량, 장기 방치 차량, 고장 나서 시동이 걸리지 않는 차량 등 모든 상태의 바이크를 매입하고 있습니다. 있는 그대로의 상태를 편하게 말씀해주시면 그에 맞는 정직한 견적을 내어드립니다.</div></div>
@@ -617,7 +707,6 @@
     </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
         history.scrollRestoration = 'manual';
         window.scrollTo(0, 0);
@@ -632,12 +721,49 @@
         mapObserver.observe(mapIframe);
         AOS.init({ duration: 800, once: true, easing: 'ease-in-out' });
         document.addEventListener("DOMContentLoaded", function () {
+            // FAQ
             const faqItems = document.querySelectorAll('.faq-item');
             faqItems.forEach(item => {
                 item.querySelector('.faq-question').addEventListener('click', () => {
                     const isActive = item.classList.contains('active');
                     faqItems.forEach(f => f.classList.remove('active'));
                     if (!isActive) item.classList.add('active');
+                });
+            });
+
+            // 스크롤 진행바
+            const progressBar = document.getElementById('scroll-progress');
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                progressBar.style.width = (scrollTop / docHeight * 100) + '%';
+            });
+
+            // 네비 현재 섹션 하이라이트
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.header-nav a');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(a => a.classList.remove('active'));
+                        const active = document.querySelector(`.header-nav a[href="#${entry.target.id}"]`);
+                        if (active) active.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.4 });
+            sections.forEach(s => observer.observe(s));
+
+            // 햄버거 메뉴
+            const hamburger = document.getElementById('hamburger');
+            const mobileNav = document.getElementById('mobile-nav');
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('open');
+                mobileNav.classList.toggle('open');
+            });
+            mobileNav.querySelectorAll('a').forEach(a => {
+                a.addEventListener('click', () => {
+                    hamburger.classList.remove('open');
+                    mobileNav.classList.remove('open');
                 });
             });
         });
