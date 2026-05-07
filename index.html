@@ -8,7 +8,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="바이크를 담다 | 전국 No.1 오토바이 매입 전문">
     <meta property="og:description" content="전국 어디든 당일 출장 방문, 즉시 현장 입금. 정직한 최고가 견적 · 출장비 무료 · 연중무휴 24시간. 010-8666-1559">
-    <meta property="og:image" content="logo.png">
+    <meta property="og:image" content="https://ggoma0626.github.io/badam/logo.png">
     <meta property="og:locale" content="ko_KR">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -191,7 +191,6 @@
         }
         .glass-card-wrap { display: flex; flex-direction: column; }
         .glass-label { display: block; font-size: 30px; font-weight: 700; color: var(--point-blue); margin-bottom: 14px; text-align: center; }
-        .glass-icon { font-size: 22px; line-height: 1; flex-shrink: 0; }
         .glass-key { font-size: 44px; font-weight: 900; color: #fff; letter-spacing: -1px; line-height: 1; white-space: nowrap; }
         .glass-desc { font-size: 19px; font-weight: 600; color: rgba(255,255,255,0.72); line-height: 1.8; }
 
@@ -330,14 +329,6 @@
         .f-kakao:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 15px 30px rgba(254,229,0,0.3); }
         .f-btn:active { transform: scale(0.95); transition: 0.1s; }
 
-        /* 스크롤 진행바 */
-        #scroll-progress {
-            position: fixed; top: 0; left: 0; z-index: 2000;
-            height: 3px; width: 0%;
-            background: linear-gradient(90deg, var(--point-blue), #60a5fa);
-            transition: width 0.1s linear;
-        }
-
         /* 네비 활성화 */
         .header-nav a.active { color: #fff; }
         .header-nav a.active::after {
@@ -392,7 +383,13 @@
             70% { box-shadow: 0 10px 25px rgba(0,0,0,0.4), 0 0 0 20px rgba(59,130,246,0); }
             100% { box-shadow: 0 10px 25px rgba(0,0,0,0.4), 0 0 0 0 rgba(59,130,246,0); }
         }
+        @keyframes pulse-ring-kakao {
+            0% { box-shadow: 0 10px 25px rgba(0,0,0,0.4), 0 0 0 0 rgba(254,229,0,0.8); }
+            70% { box-shadow: 0 10px 25px rgba(0,0,0,0.4), 0 0 0 20px rgba(254,229,0,0); }
+            100% { box-shadow: 0 10px 25px rgba(0,0,0,0.4), 0 0 0 0 rgba(254,229,0,0); }
+        }
         .f-call { animation: pulse-ring 2.5s ease-out infinite; }
+        .f-kakao { animation: pulse-ring-kakao 2.5s ease-out infinite; }
         .hero-cta { animation: pulse-ring 2.5s ease-out infinite; }
 
         @media (prefers-reduced-motion: reduce) {
@@ -419,7 +416,6 @@
             .glass-card { padding: 14px 8px 12px; }
             .glass-card-row { gap: 6px; margin-bottom: 8px; }
             .glass-key { font-size: 24px; }
-            .glass-icon { font-size: 14px; }
             .glass-desc { font-size: 11px; line-height: 1.6; }
 
             .brand-intro { padding: 60px var(--px); }
@@ -483,8 +479,6 @@
     </style>
 </head>
 <body>
-
-    <div id="scroll-progress"></div>
 
     <header>
         <div class="logo-text">바이크를 <span>담다</span></div>
@@ -729,14 +723,6 @@
                     faqItems.forEach(f => f.classList.remove('active'));
                     if (!isActive) item.classList.add('active');
                 });
-            });
-
-            // 스크롤 진행바
-            const progressBar = document.getElementById('scroll-progress');
-            window.addEventListener('scroll', () => {
-                const scrollTop = window.scrollY;
-                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-                progressBar.style.width = (scrollTop / docHeight * 100) + '%';
             });
 
             // 네비 현재 섹션 하이라이트
