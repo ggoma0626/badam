@@ -41,10 +41,10 @@
             backdrop-filter: blur(12px);
             padding: 16px var(--px);
         }
-        .logo-text { font-size: 40px; font-weight: 900; color: #fff; letter-spacing: -1px; line-height: 1; }
+        .logo-text { font-size: 40px; font-weight: 900; color: #fff; letter-spacing: -1px; line-height: 1; text-decoration: none; margin-left: 85px; }
         .logo-text span { color: var(--point-blue); }
         .header-nav {
-            position: absolute; left: 53%; transform: translateX(-50%);
+            position: absolute; left: 50%; transform: translateX(-50%);
             display: flex; align-items: center; gap: 90px;
         }
         .header-nav a {
@@ -329,6 +329,30 @@
         .f-kakao:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 15px 30px rgba(254,229,0,0.3); }
         .f-btn:active { transform: scale(0.95); transition: 0.1s; }
 
+        .header-tel {
+            margin-left: auto;
+            color: #fff;
+            font-size: 20px;
+            font-weight: 700;
+            white-space: nowrap;
+            margin-right: 16px;
+        }
+        .header-tel:hover { color: var(--point-blue); }
+        @media (max-width: 768px) { .header-tel { display: none; } }
+
+        .blog-btn {
+            margin-left: 0;
+            padding: 11px 26px;
+            background: var(--point-blue);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 50px;
+            white-space: nowrap;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+        .blog-btn:hover { opacity: 0.85; transform: translateY(-2px); color: #fff; }
+
         /* 네비 활성화 */
         .header-nav a.active { color: #fff; }
         .header-nav a.active::after {
@@ -341,6 +365,9 @@
         }
 
         /* 햄버거 메뉴 */
+        /* 모바일에서 헤더 블로그 버튼 숨김 */
+        @media (max-width: 768px) { .blog-btn { display: none; } }
+
         .hamburger {
             display: none;
             flex-direction: column;
@@ -372,7 +399,7 @@
         }
         .mobile-nav.open { display: flex; }
         .mobile-nav a {
-            font-size: 28px; font-weight: 700; color: rgba(255,255,255,0.7);
+            font-size: 24px; font-weight: 700; color: rgba(255,255,255,0.7);
             transition: color 0.2s;
         }
         .mobile-nav a:hover { color: #fff; }
@@ -401,7 +428,7 @@
             :root { --px: 20px; }
 
             header { padding: 14px var(--px); justify-content: center; }
-            .logo-text { font-size: 24px; }
+            .logo-text { font-size: 24px; margin-left: 85px; }
             .header-nav { display: none; }
             .hamburger { display: flex; }
     
@@ -481,7 +508,7 @@
 <body>
 
     <header>
-        <div class="logo-text">바이크를 <span>담다</span></div>
+        <a href="#hero" class="logo-text">바이크를 <span>담다</span></a>
         <nav class="header-nav">
             <a href="#hero">홈</a>
             <a href="#brand-intro">소개</a>
@@ -490,6 +517,8 @@
             <a href="#location">오시는길</a>
             <a href="#faq">FAQ</a>
         </nav>
+        <a href="tel:010-8666-1559" class="header-tel">010-8666-1559</a>
+        <a href="https://blog.naver.com/bikedamda" target="_blank" rel="noopener noreferrer" class="blog-btn">블로그 바로가기 ›</a>
         <div class="hamburger" id="hamburger">
             <span></span><span></span><span></span>
         </div>
@@ -502,6 +531,7 @@
         <a href="#reviews">후기</a>
         <a href="#location">오시는길</a>
         <a href="#faq">FAQ</a>
+        <a href="https://blog.naver.com/bikedamda" target="_blank" rel="noopener noreferrer" style="color:#3b82f6;">블로그 바로가기 ›</a>
     </nav>
 
     <section class="hero" id="hero">
